@@ -1,0 +1,92 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    background: #f7f8fa;
+    color: #2c3e50;
+    padding-top: 60px;
+    }
+    
+    .navbar-inverse {
+    background-color: #333;
+    border: none;
+    border-radius: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    }
+    
+    .navbar-inverse .navbar-brand,
+    .navbar-inverse .navbar-nav > li > a {
+    color: #fff;
+    }
+    
+    .sidebar {
+    width: 230px;
+    height: 100vh;
+    background-color: #f4f4f4;
+    position: fixed;
+    padding: 30px 20px;
+    color: #2c3e50;
+    border-right: 1px solid #e0e0e0;
+    }
+    
+    .sidebar h4 {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 40px;
+    color: #2c3e50;
+    }
+    
+    .sidebar ul li a {
+    color: #333;
+    background-color: transparent;
+    border-radius: 6px;
+    padding: 10px 15px;
+    display: block;
+    text-decoration: none;
+    transition: 0.3s ease;
+    }
+    
+    .sidebar ul li.active a,
+    .sidebar ul li a:hover {
+    background-color: #e8e8e8;
+    color: #000;
+    font-weight: bold;
+    }
+    
+    .main {
+    margin-left: 250px;
+    padding: 30px;
+    }
+    
+        table {
+          width: 100%;
+          background-color: #fff;
+          border-collapse: collapse;
+          border-radius: 8px;
+          overflow: hidden;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+    
+        th, td {
+          padding: 14px 20px;
+          text-align: left;
+          border-bottom: 1px solid #f0f0f0;
+        }
+    
+        thead {
+          background-color: #ecf0f1;
+        }
+    
+        .details {
+          margin-top: 30px;
+          background: #fff;
+          padding: 30px;
+          border-radius: 10px;
+          box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+        }
+    
+        .status-missed { color: #e74c3c; font-weight: bold; }
+        .status-completed { color: #27ae60; font-weight: bold; }
+        .status-ringing { color: #f1c40f; font-weight: bold; }

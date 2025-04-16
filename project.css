@@ -1,0 +1,373 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  background: #f7f8fa;
+  color: #2c3e50;
+  padding-top: 60px;
+}
+
+.navbar-inverse {
+  background-color: #333;
+  border: none;
+  border-radius: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.navbar-inverse .navbar-brand,
+.navbar-inverse .navbar-nav > li > a {
+  color: #fff;
+}
+
+.sidebar {
+  width: 230px;
+  height: 100vh;
+  background-color: #f4f4f4;
+  position: fixed;
+  padding: 30px 20px;
+  color: #2c3e50;
+  border-right: 1px solid #e0e0e0;
+}
+
+.sidebar h4 {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 40px;
+  color: #2c3e50;
+}
+
+.sidebar ul li a {
+  color: #333;
+  background-color: transparent;
+  border-radius: 6px;
+  padding: 10px 15px;
+  display: block;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+.sidebar ul li.active a,
+.sidebar ul li a:hover {
+  background-color: #e8e8e8;
+  color: #000;
+  font-weight: bold;
+}
+
+.main {
+  margin-left: 250px;
+  padding: 30px;
+}
+
+/* ---------------------------
+   Tables
+--------------------------- */
+.lead-table {
+  width: 100%;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.lead-table th,
+.lead-table td {
+  padding: 14px 20px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.lead-table thead {
+  background-color: #f1f3f5;
+}
+
+.lead-table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+/* ---------------------------
+   Deal & Lead Stage Tags
+--------------------------- */
+.status-tag {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+  min-width: 90px;
+  text-align: center;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  text-transform: capitalize;
+}
+
+/* ---------------------------
+   Lead Detail Panel
+--------------------------- */
+.lead-detail {
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+  max-width: 800px;
+  margin: 30px auto;
+}
+
+/* ---------------------------
+   Tabs
+--------------------------- */
+.tabs button {
+  background: none;
+  border: none;
+  font-weight: bold;
+  padding: 10px 18px;
+  margin-right: 10px;
+  border-bottom: 3px solid transparent;
+  color: #333;
+}
+
+.tabs .active {
+  border-color: #2c3e50;
+  color: #2c3e50;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 10px 14px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.lead-detail {
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+  max-width: 800px;
+  margin: 30px auto;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
+.topbar h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.topbar .btn {
+  margin-right: 5px;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+  border: none;
+}
+
+.topbar .btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+.topbar input.form-control {
+  border-radius: 8px;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .topbar input.form-control {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .topbar .btn {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 5px;
+  }
+
+  .topbar > div {
+    width: 100%;
+  }
+}
+/* ---------------------------
+   Buttons
+--------------------------- */
+button {
+  background-color: #2c3e50;
+  color: #fff;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+button:hover {
+  background-color: #1a252f;
+}
+
+.filter-buttons {
+  margin-bottom: 15px;
+  margin-top: 10px;
+}
+
+.filter-buttons .btn {
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
+.topbar h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.topbar .btn {
+  margin-right: 5px;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+  border: none;
+}
+
+.topbar .btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+.topbar input.form-control {
+  border-radius: 8px;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .topbar input.form-control {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .topbar .btn {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 5px;
+  }
+
+  .topbar > div {
+    width: 100%;
+  }
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  color: #fff;
+  font-weight: 500;
+  font-size: 13px;
+  text-align: center;
+}
+
+.status-todo {
+  background-color: #6c757d; /* Gray */
+  color: #1b1818;
+}
+
+.status-inprogress {
+  background-color: #a1c1f0; /* Bootstrap Blue */
+  color: #1b1818;
+}
+
+.status-started {
+  background-color: #f0b27f; /* Orange */
+  color: #1b1818;
+}
+
+.status-notstarted {
+  background-color: #7ae2f7; /* Light Blue */
+  color: #1b1818;
+}
+
+.status-delayed {
+  background-color: #eed488; /* Yellow */
+  color: #1b1818;
+}
+
+.status-terminated {
+  background-color: #f596a0; /* Red */
+  color: #1b1818;
+}
+
+.status-completed {
+  background-color: #7ff5be; /* Green */
+  color: #1b1818;
+}
+.card {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.nav-tabs > li > a {
+  color: #000;
+  font-weight: 600;
+}
+
+.nav-tabs > li.active > a {
+  color: #4f46e5;
+  border-bottom: 2px solid #4f46e5;
+  background: transparent;
+}
+
+.btn-primary {
+  background-color: #4f46e5;
+  border-color: #4f46e5;
+}
+
+.btn-primary:hover {
+  background-color: #4338ca;
+  border-color: #4338ca;
+}

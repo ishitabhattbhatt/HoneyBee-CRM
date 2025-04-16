@@ -1,0 +1,143 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    background: #f7f8fa;
+    color: #2c3e50;
+    padding-top: 60px;
+  }
+  
+  .navbar-inverse {
+    background-color: #333;
+    border: none;
+    border-radius: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+  
+  .navbar-inverse .navbar-brand,
+  .navbar-inverse .navbar-nav > li > a {
+    color: #fff;
+  }
+  
+  .sidebar {
+    width: 230px;
+    height: 100vh;
+    background-color: #f4f4f4;
+    position: fixed;
+    padding: 30px 20px;
+    color: #2c3e50;
+    border-right: 1px solid #e0e0e0;
+  }
+  
+  .sidebar h4 {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 40px;
+    color: #2c3e50;
+  }
+  
+  .sidebar ul li a {
+    color: #333;
+    background-color: transparent;
+    border-radius: 6px;
+    padding: 10px 15px;
+    display: block;
+    text-decoration: none;
+    transition: 0.3s ease;
+  }
+  
+  .sidebar ul li.active a,
+  .sidebar ul li a:hover {
+    background-color: #e8e8e8;
+    color: #000;
+    font-weight: bold;
+  }
+  
+  .main {
+    margin-left: 250px;
+    padding: 30px;
+  }
+
+  .form-section {
+    background: linear-gradient(to right, #f9f7ff, #f3e8ff);
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .form-section:hover {
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+  }
+
+  .form-section h4 {
+    margin-top: 0;
+    color: #5e548e;
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  select {
+    background-color: #fff;
+    border: 1px solid #d0cde1;
+    border-radius: 8px;
+    padding: 12px;
+    width: 100%;
+    margin-bottom: 15px;
+    transition: border-color 0.3s ease;
+  }
+
+  input:focus {
+    outline: none;
+    border-color: #a084ca;
+    box-shadow: 0 0 0 2px rgba(160, 132, 202, 0.2);
+  }
+
+  .btn-primary {
+    background-color: #a084ca;
+    border-color: #8c6bb1;
+    color: #fff;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    background-color: #9575cd;
+    border-color: #7e57c2;
+    color: #fff;
+  }
+
+  .btn-danger {
+    border-radius: 6px;
+  }
+
+  .btn-success {
+    border-radius: 6px;
+    margin-top: 15px;
+  }
+
+  .checkbox label {
+    font-weight: normal;
+  }
+
+  table {
+    width: 100%;
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+  }
+
+  table th, table td {
+    text-align: center;
+    vertical-align: middle !important;
+  }
+

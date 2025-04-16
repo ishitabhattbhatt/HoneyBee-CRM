@@ -1,0 +1,153 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    background: #f7f8fa;
+    color: #2c3e50;
+    padding-top: 60px;
+    }
+    
+    .navbar-inverse {
+    background-color: #333;
+    border: none;
+    border-radius: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    }
+    
+    .navbar-inverse .navbar-brand,
+    .navbar-inverse .navbar-nav > li > a {
+    color: #fff;
+    }
+    
+    .sidebar {
+    width: 230px;
+    height: 100vh;
+    background-color: #f4f4f4;
+    position: fixed;
+    padding: 30px 20px;
+    color: #2c3e50;
+    border-right: 1px solid #e0e0e0;
+    }
+    
+    .sidebar h4 {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 40px;
+    color: #2c3e50;
+    }
+    
+    .sidebar ul li a {
+    color: #333;
+    background-color: transparent;
+    border-radius: 6px;
+    padding: 10px 15px;
+    display: block;
+    text-decoration: none;
+    transition: 0.3s ease;
+    }
+    
+    .sidebar ul li.active a,
+    .sidebar ul li a:hover {
+    background-color: #e8e8e8;
+    color: #000;
+    font-weight: bold;
+    }
+    
+    .main {
+    margin-left: 250px;
+    padding: 30px;
+    }
+  h1 {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  .note-card {
+    background: white;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
+    transition: 0.3s ease;
+    border: 1px solid #eee;
+    position: relative;
+  }
+  .note-card:hover {
+    box-shadow: 0 10px 18px rgba(0, 0, 0, 0.1);
+  }
+  .note-card h3 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  .note-card p {
+    font-size: 16px;
+    color: #444;
+    line-height: 1.4;
+  }
+  .note-card .meta {
+    font-size: 12px;
+    color: #999;
+    margin-top: 12px;
+  }
+  .note-actions {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+  }
+  .note-actions i {
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 16px;
+    color: #555;
+    transition: 0.2s ease;
+  }
+  .note-actions i:hover {
+    color: #000;
+  }
+  #noteModal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+  }
+  .modal-box {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    max-width: 450px;
+    width: 90%;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  }
+  .hidden {
+    display: none;
+  }
+  .btn {
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-primary {
+    background-color: #000;
+    color: white;
+  }
+  .btn-primary:hover {
+    background-color: #222;
+  }
+  .btn-secondary {
+    background-color: #eee;
+  }
+  .btn-secondary:hover {
+    background-color: #ddd;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 25px;
+  }

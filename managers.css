@@ -1,0 +1,110 @@
+
+
+  .card {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.08);
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+  }
+
+  .table th {
+    background-color: #EDCFC0;
+    color: #2c3e50;
+  }
+
+  .table-hover tbody tr:hover {
+    background-color: #f8e8dc;
+    cursor: pointer;
+  }
+
+  .search-bar {
+    margin-bottom: 20px;
+  }
+
+  .label {
+    background-color: #E4D5E3;
+    color: #2c3e50;
+    font-weight: normal;
+  }
+
+  .btn-add {
+    background-color: #C3D3D6;
+    border: none;
+    color: #2c3e50;
+    font-weight: bold;
+  }
+
+  .modal-header, .modal-footer {
+    background-color: #EDCFC0;
+  }
+
+  .modal-title {
+    color: #2c3e50;
+  }
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    background: #f7f8fa;
+    color: #2c3e50;
+    padding-top: 60px;
+    }
+    
+    .navbar-inverse {
+    background-color: #333;
+    border: none;
+    border-radius: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    }
+    
+    .navbar-inverse .navbar-brand,
+    .navbar-inverse .navbar-nav > li > a {
+    color: #fff;
+    }
+    
+    .sidebar {
+    width: 230px;
+    height: 100vh;
+    background-color: #f4f4f4;
+    position: fixed;
+    padding: 30px 20px;
+    color: #2c3e50;
+    border-right: 1px solid #e0e0e0;
+    }
+    
+    .sidebar h4 {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 40px;
+    color: #2c3e50;
+    }
+    
+    .sidebar ul li a {
+    color: #333;
+    background-color: transparent;
+    border-radius: 6px;
+    padding: 10px 15px;
+    display: block;
+    text-decoration: none;
+    transition: 0.3s ease;
+    }
+    
+    .sidebar ul li.active a,
+    .sidebar ul li a:hover {
+    background-color: #e8e8e8;
+    color: #000;
+    font-weight: bold;
+    }
+    
+    .container {
+    margin-left: 250px;
+    padding: 30px;
+    }

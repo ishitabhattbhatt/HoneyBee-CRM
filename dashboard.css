@@ -1,0 +1,126 @@
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  background: #f7f8fa;
+  color: #2c3e50;
+  padding-top: 60px;
+}
+
+    .dark-mode {
+        background-color: #1e1e1e;
+        color: #f0f0f0;
+      }
+    
+      .card {
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      }
+    
+      .bg-dust     { background-color: #EDCFC0; }
+      .bg-columbia { background-color: #C3D3D6; }
+      .bg-gainsboro{ background-color: #D5DBE4; }
+      .bg-platinum { background-color: #E4D5E3; }
+      .bg-papaya   { background-color: #FEF3D2; }
+    
+      .dark-mode .card {
+        background-color: #2c2c2c !important;
+        color: #f0f0f0;
+      }
+    
+      .btn-toggle-darkmode {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 18px;
+        margin-top: 8px;
+        margin-right: 10px;
+      }
+
+      .navbar-inverse {
+        background-color: #333;
+        border: none;
+        border-radius: 0;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+      }
+    
+      .navbar-inverse .navbar-brand,
+      .navbar-inverse .navbar-nav > li > a {
+        color: #fff;
+      }
+    
+      .sidebar {
+        width: 230px;
+        height: 100vh;
+        background-color: #f4f4f4;
+        position: fixed;
+        padding: 30px 20px;
+        color: #2c3e50;
+        border-right: 1px solid #e0e0e0;
+      }
+    
+      .sidebar h4 {
+        font-size: 22px;
+        font-weight: bold;
+        margin-bottom: 40px;
+        color: #2c3e50;
+      }
+    
+      .sidebar ul li a {
+        color: #333;
+        background-color: transparent;
+        border-radius: 6px;
+        padding: 10px 15px;
+        display: block;
+        text-decoration: none;
+        transition: 0.3s ease;
+      }
+    
+      .sidebar ul li.active a,
+      .sidebar ul li a:hover {
+        background-color: #e8e8e8;
+        color: #000;
+        font-weight: bold;
+      }
+
+    .main-content {
+      margin-left: 250px;
+      padding: 20px;
+    }
+
+    .card {
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      background-color: white;
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.02);
+    }
+
+    .bg-papaya { background-color: #FEF3D2; }
+    .bg-dust { background-color: #EDCFC0; }
+    .bg-columbia { background-color: #C3D3D6; }
+    .bg-gainsboro { background-color: #D5DBE4; }
+    .bg-platinum { background-color: #E4D5E3; }
+
+    h2, h4 {
+      color: #2c3e50;
+    }
+
+    .progress-bar {
+      background-color: #C3D3D6;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: auto !important;
+    }
