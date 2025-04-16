@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="loginApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      background-color: #FEF3D2;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .login-card {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #2c3e50;
+    }
+
+    .form-group label {
+      color: #34495e;
+    }
+
+    .btn-custom {
+      background-color: #EDCFC0;
+      color: #2c3e50;
+      border: none;
+    }
+
+    .btn-custom:hover {
+      background-color: #e0bfb0;
+    }
+
+    .forgot-password {
+      display: block;
+      text-align: right;
+      margin-top: 10px;
+      font-size: 13px;
+      color: #34495e;
+    }
+
+    .forgot-password:hover {
+      text-decoration: underline;
+    }
+
+    .error-message {
+      color: red;
+      font-size: 13px;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body ng-controller="LoginController">
+  <div class="login-card">
+    <h2><i class="fa fa-lock"></i> HoneyBee Login</h2>
+
+    <div class="error-message" ng-if="error">{{ error }}</div>
+
+    <form ng-submit="login()">
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" class="form-control" ng-model="user.username" required>
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" class="form-control" ng-model="user.password" required>
+      </div>
+
+      <button type="submit" class="btn btn-custom btn-block">Login</button>
+
+      <a href="forgotpwd.html" class="forgot-password">Forgot Password?</a>
+    </form>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script>
+    angular.module('loginApp', [])
+      .controller('LoginController', function($scope, $window) {
+        $scope.user = {};
+        $scope.error = "";
+
+        let storedUsers = JSON.parse(localStorage.getItem('users')) || [];
+
+        // Initialize default users if none exist
+        if (storedUsers.length === 0) {
+          storedUsers = [
+            { username: 'admin', password: 'admin123', role: 'Admin', email: 'admin@honeybee.com' },
+            { username: 'john', password: 'john123', role: 'Employee', email: 'john@honeybee.com' }
+          ];
+          localStorage.setItem('users', JSON.stringify(storedUsers));
+        }
+
+        $scope.login = function () {
+          const matchedUser = storedUsers.find(u =>
+            u.username === $scope.user.username &&
+            u.password === $scope.user.password
+          );
+
+          if (matchedUser) {
+            $window.sessionStorage.setItem('loggedIn', true);
+            $window.sessionStorage.setItem('userRole', matchedUser.role);
+            $window.sessionStorage.setItem('loggedInUser', matchedUser.username);
+            $window.sessionStorage.setItem('userEmail', matchedUser.email);
+            $window.location.href = 'dashboard.html';
+          } else {
+            $scope.error = "Invalid username or password.";
+          }
+        };
+      });
+  </script>
+</body>
+</html>

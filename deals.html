@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html ng-app="crmApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Deals</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/deals.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="dashboard.html"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="login.html"><i class="fa fa-sign-out-alt"></i> Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h4>Honey Bee</h4>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="leadinfo.html">Leads</a></li>
+      <li class="active"><a href="deals.html">Deals</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="tasks.html">Tasks</a></li>
+      <li><a href="notes.html">Notes</a></li>
+      <li><a href="customer.html">Customers</a></li>
+      <li><a href="contacts.html">Contacts</a></li>
+      <li><a href="call-logs.html">Call Logs</a></li>
+      <li><a href="organisation.html">Organisation</a></li>
+      <li><a href="employees.html">Employee</a></li>
+      <li><a href="managers.html">Managers</a></li>
+      <li><a href="teams.html">Teams</a></li>
+      <li><a href="supportmgt.html">Support</a></li>
+      <li><a href="analytics.html">Reports</a></li>
+      <li><a href="settings.html">Settings</a></li>
+    </ul>
+  </div>
+
+  <div id="unauthorized-message" style="display:none; text-align:center; margin-top:50px;">
+    <h2 style="color: red;">You're not authorized to view this page.</h2>
+    <a href="login.html" class="btn btn-primary">Go to Login</a>
+  </div>
+  
+
+  <div class="main" ng-controller="DealsController">
+    <!-- Deals List View -->
+    <div ng-show="!selectedDeal">
+      <div class="topbar" style="display: flex; justify-content: space-between; align-items: center;">
+        <h2>Deals</h2>
+        <div>
+          <button class="btn btn-default" ng-click="setStageFilter('')">All</button>
+          <button class="btn btn-info" ng-click="setStageFilter('Negotiation')">Negotiation</button>
+          <button class="btn btn-warning" ng-click="setStageFilter('Proposal Sent')">Proposal Sent</button>
+          <button class="btn btn-success" ng-click="setStageFilter('Won')">Won</button>
+          <button class="btn btn-danger" ng-click="setStageFilter('Lost')">Lost</button>
+        </div>
+        <div>
+          <input type="text" ng-model="searchQuery" placeholder="Search deals..." class="form-control" style="display:inline-block; width: 200px; margin-right: 10px;">
+          <button ng-click="addNewDeal()" class="btn btn-success">+ Add New</button>
+        </div>
+      </div>
+      
+      <!-- Deals Table -->
+      <table class="lead-table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Customer</th>
+            <th>Value</th>
+            <th>Stage</th>
+            <th>Assigned to:</th>
+            <th>Created</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="deal in deals | filter:{ stage: stageFilter } track by deal.id" ng-click="viewDeal(deal)">
+
+            <td>{{ deal.title }}</td>
+            <td>{{ deal.customer }}</td>
+            <td>${{ deal.value }}</td>
+            <td>
+              <span class="status-tag {{ formatStageClass(deal.stage) }}">
+                {{ deal.stage }}
+              </span>
+              <span ng-if="deal.source === 'lead'" class="label label-info ml-2">Converted</span>
+            </td>
+            
+            <td>{{ getUserNameByEmail(deal.assignedTo) }}</td>
+            <td>{{ deal.created | date:'MMM d, y h:mm a' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Deal Detail View -->
+    <div ng-show="selectedDeal" class="lead-detail">
+      <button ng-click="backToList()">← Back to List</button>
+      <h2>{{ selectedDeal.title }}</h2>
+
+      <div class="deal-actions" style="margin: 10px 0;">
+        <button class="btn btn-danger btn-sm" ng-click="deleteDeal(originalDeal)">Delete Deal</button>
+        <button class="btn btn-success btn-sm" ng-click="convertToProject(originalDeal)">Convert to Project</button>
+        
+      </div>
+
+      <!-- Tab Buttons -->
+      <div class="tabs">
+        <button ng-click="activeTab = 'details'" ng-class="{active: activeTab==='details'}">Details</button>
+        <button ng-click="activeTab = 'notes'" ng-class="{active: activeTab==='notes'}">Notes</button>
+        <button ng-click="activeTab = 'tasks'" ng-class="{active: activeTab==='tasks'}">Tasks</button>
+        <button ng-click="activeTab = 'emails'" ng-class="{active: activeTab==='emails'}">Emails</button>
+      </div>
+
+      <!-- Details Tab -->
+      <div ng-show="activeTab === 'details'" class="tab-content">
+        <label>Title: <input ng-model="selectedDeal.title" /></label><br>
+        <label>Customer: <input ng-model="selectedDeal.customer" /></label><br>
+        <label>Value: <input ng-model="selectedDeal.value" type="number" /></label><br>
+        <label>Stage: 
+          <select ng-model="selectedDeal.stage">
+            <option>Negotiation</option>
+            <option>Proposal Sent</option>
+            <option>Won</option>
+            <option>Lost</option>
+          </select>
+        </label><br>
+        <label>Assigned To: 
+          <select class="form-control" ng-model="selectedDeal.assignedTo" required>
+            <option disabled selected value="">Select Sales Manager</option>
+            <option ng-repeat="user in users" value="{{ user.email }}">{{ user.name }}</option>
+          </select> 
+                              
+        </label><br>
+        <button ng-click="saveDeal()">Save</button>
+      </div>
+
+      <!-- Notes Tab -->
+<div ng-show="activeTab === 'notes'" class="tab-content">
+  <div ng-if="!selectedDeal.notes || selectedDeal.notes.length === 0">
+    <p>No notes yet.</p>
+  </div>
+  <ul>
+    <li ng-repeat="(index, note) in selectedDeal.notes track by $index" style="margin-bottom: 10px;">
+      <div ng-if="editingNoteIndex !== index" ng-click="enableNoteEdit(index)" style="cursor: pointer;">
+        {{ note }}
+      </div>
+      <div ng-if="editingNoteIndex === index">
+        <textarea ng-model="selectedDeal.notes[index]" class="form-control" ng-blur="disableNoteEdit(index)" autofocus></textarea>
+      </div>
+    </li>
+  </ul>
+  <textarea ng-model="newNote" class="form-control" placeholder="Add a note..."></textarea>
+  <button ng-click="addNote()">Add Note</button>
+</div>
+
+<!-- Emails Tab -->
+<div ng-show="activeTab === 'emails'" class="tab-content">
+  <div ng-if="!selectedDeal.emails || selectedDeal.emails.length === 0">
+    <p>No email history yet.</p>
+  </div>
+  <ul>
+    <li ng-repeat="(index, email) in selectedDeal.emails track by $index" style="margin-bottom: 10px;">
+      <div ng-if="editingEmailIndex !== index" ng-click="enableEmailEdit(index)" style="cursor: pointer;">
+        <strong>{{ email.timestamp }}</strong> 
+        <span ng-if="email.type === 'sent'" class="label label-success">Sent</span>
+        <span ng-if="email.type === 'received'" class="label label-info">Received</span>
+        : {{ email.content }}
+      </div>
+      <div ng-if="editingEmailIndex === index">
+        <textarea ng-model="selectedDeal.emails[index].content" class="form-control"
+                  ng-blur="disableEmailEdit(index)"
+                  ng-keydown="handleEmailKeyDown($event, index)"
+                  autofocus></textarea>
+        <small>{{ email.timestamp }}</small>
+      </div>
+    </li>
+  </ul>
+  
+  <!-- Email Interaction Section -->
+  <textarea ng-model="newEmail" class="form-control" placeholder="Type an email..."></textarea>
+  
+  <!-- Buttons to simulate sending and receiving emails -->
+  <div style="margin-top: 10px;">
+    <button class="btn btn-success" ng-click="sendEmail()">Send Email</button>
+    <button class="btn btn-info" ng-click="receiveEmail()">Receive Email</button>
+  </div>
+</div>
+
+
+  <!-- AngularJS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="js/deal.js"></script>
+</body>
+</html>

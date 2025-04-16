@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="dashboardApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body ng-controller="DashboardController" ng-class="{'dark-mode': darkMode}">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="dashboard.html"><i class="fa fa-user"></i> Home</a></li>
+        <li>
+          <button class="btn-toggle-darkmode" ng-click="toggleDarkMode()">
+            <i class="fa" ng-class="{'fa-moon': !darkMode, 'fa-sun': darkMode}"></i>
+          </button>
+        </li>
+        <li><a href="login.html"><i class="fa fa-sign-out-alt"></i> Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h4>Honey Bee</h4>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="leadinfo.html">Leads</a></li>
+      <li><a href="deals.html">Deals</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="tasks.html">Tasks</a></li>
+      <li><a href="notes.html">Notes</a></li>
+      <li><a href="customer.html">Customers</a></li>
+      <li><a href="contacts.html">Contacts</a></li>
+      <li><a href="call-logs.html">Call Logs</a></li>
+      <li><a href="organisation.html">Organisation</a></li>
+      <li><a href="employees.html">Employee</a></li>
+      <li><a href="managers.html">Managers</a></li>
+      <li><a href="teams.html">Teams</a></li>
+      <li><a href="contacts.html">Contacts</a></li>
+      <li><a href="supportmgt.html">Support</a></li>
+      <li><a href="analytics.html">Reports</a></li>
+      <li><a href="settings.html">Settings</a></li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <h2 class="text-center">Dashboard</h2>
+
+    <!-- Quick Stats -->
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="card bg-dust" onclick="window.location.href='employees.html'" style="cursor: pointer;">
+          <h4><i class="fa fa-users"></i> Users</h4>
+          <h3>{{users.length}}</h3>
+        </div>
+      </div>
+      <div class="col-sm-3" onclick="window.location.href='tasks.html'" style="cursor: pointer;">
+        <div class="card bg-columbia">
+          <h4><i class="fa fa-tasks"></i> Tasks</h4>
+          <h3>{{tasks.length}}</h3>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="card bg-gainsboro">
+          <h4><i class="fa fa-envelope"></i> Customers</h4>
+          <h3>12</h3>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="card bg-platinum">
+          <h4><i class="fa fa-bell"></i> Projects</h4>
+          <h3>5</h3>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="card">
+          <h4><i class="fa fa-chart-pie"></i> Task Completion</h4>
+          <canvas id="taskChart"></canvas>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card">
+          <h4><i class="fa fa-chart-bar"></i> Deals by Company</h4>
+          <canvas id="userChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Table -->
+    <div class="card bg-papaya">
+      <h4><i class="fa fa-table"></i> User List</h4>
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>Name</th><th>Email</th><th>Username</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="user in users">
+            <td>{{user.name}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.username}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Task Progress -->
+    <div class="card bg-gainsboro">
+      <h4><i class="fa fa-check-circle"></i> Tasks Progress</h4>
+      <div ng-repeat="task in tasks">
+        <strong>{{task.title | limitTo: 30}}{{ task.title.length > 30 ? '...' : '' }}</strong>
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" style="width: {{(task.id * 10) % 100}}%">
+            {{(task.id * 10) % 100}}%
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AngularJS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="js/dashboard.js">
+    
+  </script>
+</body>
+</html>

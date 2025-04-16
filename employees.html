@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="employeesApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Employees</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/employee.css">
+  <style>
+  
+
+  </style>
+</head>
+<body ng-controller="EmployeesController">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="dashboard.html"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="login.html"><i class="fa fa-sign-out-alt"></i> Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h4>Honey Bee</h4>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="leadinfo.html">Leads</a></li>
+      <li><a href="deals.html">Deals</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="tasks.html">Tasks</a></li>
+      <li><a href="notes.html">Notes</a></li>
+      <li><a href="customer.html">Customers</a></li>
+      <li><a href="contacts.html">Contacts</a></li>
+      <li><a href="call-logs.html">Call Logs</a></li>
+      <li><a href="organisation.html">Organisation</a></li>
+      <li class="active"><a href="employees.html">Employee</a></li>
+      <li><a href="managers.html">Managers</a></li>
+      <li><a href="teams.html">Teams</a></li>
+      <li><a href="supportmgt.html">Support</a></li>
+      <li><a href="analytics.html">Reports</a></li>
+      <li><a href="settings.html">Settings</a></li>
+    </ul>
+  </div>
+  <div id="unauthorized-message" style="display:none; text-align:center; margin-top:50px;">
+    <h2 style="color: red;">You're not authorized to view this page.</h2>
+    <a href="login.html" class="btn btn-primary">Go to Login</a>
+  </div>
+  <div class="main-content">
+    <h2><i class="glyphicon glyphicon-list-alt"></i> Employees</h2>
+
+    <div class="top-controls">
+      <div class="form-inline">
+        <input type="text" class="form-control" placeholder="Search name/email..." ng-model="searchText">
+      </div>
+      <button class="btn btn-pastel" ng-click="openAddModal()"><i class="glyphicon glyphicon-plus"></i> Add Employee</button>
+    </div>
+
+    <!-- Inside the employee card -->
+    <div class="panel" ng-repeat="emp in filteredEmployees = (employees | filter:customFilter).slice(((currentPage-1)*pageSize), ((currentPage)*pageSize))">
+    <div class="action-icons">
+      <i class="glyphicon glyphicon-edit" title="Edit" ng-click="openEditModal(emp)"></i>
+      <i class="glyphicon glyphicon-trash" title="Delete" ng-click="deleteEmployee(emp)"></i>
+    </div>
+  
+    <div style="display: flex; align-items: center; gap: 15px;">
+      <img ng-src="{{ emp.photo }}" alt="Profile" class="img-circle" style="width:60px; height:60px; border:2px solid #ccc;">
+      <div>
+        <strong>{{ emp.name }}</strong>
+        <div class="emp-info">
+          <small><i class="glyphicon glyphicon-envelope"></i> {{ emp.email }}</small>
+          <small><i class="glyphicon glyphicon-phone"></i> {{ emp.phone }}</small>
+          <small><i class="glyphicon glyphicon-briefcase"></i> {{ emp.role }}</small>
+        </div>
+        
+    </div>
+  </div>
+    </div>
+<div>
+    <ul class="pagination">
+      <li ng-class="{disabled: currentPage === 1}">
+        <a href="" ng-click="setPage(currentPage - 1)">«</a>
+      </li>
+      <li ng-repeat="page in getPages()" ng-class="{active: page === currentPage}">
+        <a href="" ng-click="setPage(page)">{{ page }}</a>
+      </li>
+      <li ng-class="{disabled: currentPage === totalPages}">
+        <a href="" ng-click="setPage(currentPage + 1)">»</a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Modal (Add/Edit) -->
+  <div id="employeeModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">{{ isEditMode ? 'Edit' : 'Add' }} Employee</h4>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label>Name</label>
+              <input type="text" class="form-control" ng-model="selectedEmployee.name" required>
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" class="form-control" ng-model="selectedEmployee.email" required>
+            </div>
+            <div class="form-group">
+              <label>Phone</label>
+              <input type="text" class="form-control" ng-model="selectedEmployee.phone">
+            </div>
+            <div class="form-group">
+              <label>Role</label>
+              <select class="form-control" ng-model="selectedEmployee.role" required>
+                <option value="" disabled>Select Role</option>
+                <option>Sales Team</option>
+                <option>Finance Team</option>
+                <option>Operation Team</option>
+                <option>Marketing Team</option>
+                <option>Product Team</option>
+                <option>HR Team</option>
+              </select>
+            </div>
+            
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button class="btn btn-pastel" ng-click="saveEmployee()">{{ isEditMode ? 'Update' : 'Add' }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="js/employee.js">
+    
+  </script>
+</body>
+</html>

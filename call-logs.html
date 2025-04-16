@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="callLogsApp">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Call Logs</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+  <link rel="stylesheet" href="css/call.css">
+  <style>
+    
+  </style>
+</head>
+
+<body ng-controller="CallLogController">
+  <!-- Navbar -->
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="dashboard.html"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="login.html"><i class="fa fa-sign-out-alt"></i> Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h4>Honey Bee</h4>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="leadinfo.html">Leads</a></li>
+      <li><a href="deals.html">Deals</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="tasks.html">Tasks</a></li>
+      <li><a href="notes.html">Notes</a></li>
+      <li><a href="customer.html">Customers</a></li>
+      <li><a href="contacts.html">Contacts</a></li>
+      <li class="active"><a href="call-logs.html">Call Logs</a></li>
+      <li><a href="organisation.html">Organisation</a></li>
+      <li><a href="employees.html">Employee</a></li>
+      <li><a href="managers.html">Managers</a></li>
+      <li><a href="teams.html">Teams</a></li>
+      <li><a href="supportmgt.html">Support</a></li>
+      <li><a href="analytics.html">Reports</a></li>
+      <li><a href="settings.html">Settings</a></li>
+    </ul>
+  </div>
+  <div id="unauthorized-message" style="display:none; text-align:center; margin-top:50px;">
+    <h2 style="color: red;">You're not authorized to view this page.</h2>
+    <a href="login.html" class="btn btn-primary">Go to Login</a>
+  </div>
+
+  <div class="main">
+    <h2>Call Logs</h2>
+
+    <input type="text" ng-model="searchText" placeholder="Search by receiver..." class="form-control" style="display:inline-block; width:auto;">
+    <select ng-model="filterStatus" class="form-control" style="display:inline-block; width:auto;">
+      <option value="">All</option>
+      <option value="Missed Call">Missed Call</option>
+      <option value="Completed">Completed</option>
+      <option value="Ringing">Ringing</option>
+    </select>
+    <button class="btn btn-primary" ng-click="sortBy('receiver')">Sort by Receiver</button>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Caller</th>
+          <th>Receiver</th>
+          <th>Direction</th>
+          <th>Status</th>
+          <th>Duration</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="call in filteredLogs = (callLogs | filter:{receiver: searchText} | filter:statusFilter | orderBy:sortKey)" ng-click="selectCall(call)">
+          <td>{{call.caller}}</td>
+          <td>{{call.receiver}}</td>
+          <td>{{call.direction}}</td>
+          <td ng-class="{'status-missed': call.status === 'Missed Call', 'status-completed': call.status === 'Completed', 'status-ringing': call.status === 'Ringing'}">{{call.status}}</td>
+          <td>{{call.duration}}</td>
+          <td>{{call.date}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="margin: 20px 0;">
+      <button class="btn btn-default" ng-disabled="currentPage === 1" ng-click="prevPage()">Previous</button>
+      Page {{currentPage}} / {{totalPages}}
+      <button class="btn btn-default" ng-disabled="currentPage === totalPages" ng-click="nextPage()">Next</button>
+    </div>
+
+    <div class="details" ng-if="selectedCall">
+      <h3>Call Details</h3>
+      <p><strong>Direction:</strong> {{selectedCall.direction}}</p>
+      <p><strong>From:</strong> {{selectedCall.caller}} &rarr; <strong>To:</strong> {{selectedCall.receiver}}</p>
+      <p><strong>Date:</strong> {{selectedCall.date}}</p>
+      <p><strong>Duration:</strong> {{selectedCall.duration}}</p>
+      <p><strong>Status:</strong> {{selectedCall.status}}</p>
+      <audio controls ng-if="selectedCall.audio">
+        <source ng-src="{{selectedCall.audio}}" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+      <p><strong>Notes:</strong></p>
+      <p>{{selectedCall.notes}}</p>
+    </div>
+  </div>
+
+  <script src="js/call.js">
+    
+  </script>
+</body>
+
+</html>

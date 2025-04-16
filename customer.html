@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html ng-app="crmApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Customer Management</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/customer.css">
+  <style>
+    
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="dashboard.html"><i class="fa fa-user"></i> Home</a></li>
+        <li>
+          <button class="btn-toggle-darkmode" ng-click="toggleDarkMode()">
+            <i class="fa" ng-class="{'fa-moon': !darkMode, 'fa-sun': darkMode}"></i>
+          </button>
+        </li>
+        <li><a href="login.html"><i class="fa fa-sign-out-alt"></i> Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h4>Honey Bee</h4>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="leadinfo.html">Leads</a></li>
+      <li><a href="deals.html">Deals</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="tasks.html">Tasks</a></li>
+      <li><a href="notes.html">Notes</a></li>
+      <li class="active"><a href="customer.html">Customers</a></li>
+      <li><a href="contacts.html">Contacts</a></li>
+      <li><a href="call-logs.html">Call Logs</a></li>
+      <li><a href="organisation.html">Organisation</a></li>
+      <li><a href="employees.html">Employee</a></li>
+      <li><a href="managers.html">Managers</a></li>
+      <li><a href="teams.html">Teams</a></li>
+      <li><a href="supportmgt.html">Support</a></li>
+      <li><a href="analytics.html">Reports</a></li>
+      <li><a href="settings.html">Settings</a></li>
+    </ul>
+  </div>
+  <div id="unauthorized-message" style="display:none; text-align:center; margin-top:50px;">
+    <h2 style="color: red;">You're not authorized to view this page.</h2>
+    <a href="login.html" class="btn btn-primary">Go to Login</a>
+  </div>
+  <div class="main" ng-controller="CustomerController">
+    <div ng-show="!selectedCustomer">
+      <div class="topbar">
+        <h2>Customers</h2>
+        <button ng-click="addNewCustomer()">+ Add New</button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Company</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>City</th>
+            <th>Actions</th> <!-- Added a new column for actions -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="cust in customers" ng-click="viewCustomer(cust)">
+            <td>{{ cust.name }}</td>
+            <td>{{ cust.company }}</td>
+            <td>{{ cust.email }}</td>
+            <td>{{ cust.phone }}</td>
+            <td>{{ cust.city }}</td>
+            <td>
+              <button ng-click="deleteCustomer(cust)" class="btn btn-danger">Delete</button> <!-- Delete button -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div ng-show="selectedCustomer" class="customer-detail">
+      <button ng-click="backToList()">← Back to List</button>
+      <h2>{{ selectedCustomer.name || 'New Customer' }}</h2>
+    
+      <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#details">Details</a></li>
+        <li><a data-toggle="tab" href="#tasks">Tasks</a></li>
+        <li><a data-toggle="tab" href="#history">History</a></li>
+      </ul>
+    
+      <div class="tab-content">
+        <!-- Details Tab -->
+        <div id="details" class="tab-pane fade in active">
+          <br/>
+          <label>Name: <input ng-model="selectedCustomer.name" /></label>
+          <label>Company: <input ng-model="selectedCustomer.company" /></label>
+          <label>Email: <input ng-model="selectedCustomer.email" /></label>
+          <label>Phone: <input ng-model="selectedCustomer.phone" /></label>
+          <label>City: <input ng-model="selectedCustomer.city" /></label>
+          <button ng-click="saveCustomer()">Save</button>
+        </div>
+    
+        <!-- Tasks Tab (Placeholder for now) -->
+        <div id="tasks" class="tab-pane fade">
+          <br/>
+          <p><i>Tasks feature coming soon or to be integrated here.</i></p>
+        </div>
+    
+        <!-- History Tab -->
+        <div id="history" class="tab-pane fade">
+          <br/>
+          <h4>Email History</h4>
+          <ul>
+            <li ng-repeat="email in selectedCustomer.emails">
+              <strong>{{ email.date | date:'short' }}</strong>: {{ email.subject }}
+            </li>
+          </ul>
+    
+          <h4>Project History</h4>
+          <ul>
+            <li ng-repeat="project in selectedCustomer.projectHistory">
+              <strong>{{ project.name }}</strong> - {{ project.status }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="js/customer.js">
+    
+  </script>
+  <script>
+      $scope.darkMode = $window.localStorage.getItem('darkMode') === 'true';
+
+// Apply dark mode class on load
+if ($scope.darkMode) {
+  document.body.classList.add('dark-mode');
+}
+
+$scope.toggleDarkMode = function () {
+  $scope.darkMode = !$scope.darkMode;
+  $window.localStorage.setItem('darkMode', $scope.darkMode);
+
+  if ($scope.darkMode) {
+    document.body.classList.add('dark-mode');
+  } else {
+    document.body.classList.remove('dark-mode');
+  }
+};
+  </script>
+</body>
+</html>

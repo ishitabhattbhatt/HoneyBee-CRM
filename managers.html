@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="managersApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Managers List</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/managers.css">
+ <style>
+    
+  </style>
+</head>
+<body ng-controller="ManagersController">
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="dashboard.html"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="login.html"><i class="fa fa-sign-out-alt"></i> Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h4>Honey Bee</h4>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="leadinfo.html">Leads</a></li>
+      <li><a href="deals.html">Deals</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="tasks.html">Tasks</a></li>
+      <li><a href="notes.html">Notes</a></li>
+      <li><a href="customer.html">Customers</a></li>
+      <li><a href="contacts.html">Contacts</a></li>
+      <li><a href="call-logs.html">Call Logs</a></li>
+      <li><a href="organisation.html">Organisation</a></li>
+      <li><a href="employees.html">Employee</a></li>
+      <li class="active"><a href="managers.html">Managers</a></li>
+      <li><a href="teams.html">Teams</a></li>
+      <li><a href="supportmgt.html">Support</a></li>
+      <li><a href="analytics.html">Reports</a></li>
+      <li><a href="settings.html">Settings</a></li>
+    </ul>
+  </div>
+  <div id="unauthorized-message" style="display:none; text-align:center; margin-top:50px;">
+    <h2 style="color: red;">You're not authorized to view this page.</h2>
+    <a href="login.html" class="btn btn-primary">Go to Login</a>
+  </div>
+  <div class="container">
+    <div class="card">
+      <div class="clearfix">
+        <h2 class="pull-left"><i class="fa fa-users-cog"></i> Managers List</h2>
+        <button class="btn btn-add pull-right" ng-click="openAddManagerModal()">
+          <i class="fa fa-plus"></i> Add New Manager
+        </button>
+      </div>
+
+      <div class="row search-bar">
+        <div class="col-sm-6">
+          <input type="text" class="form-control" placeholder="Search managers..." ng-model="searchText">
+        </div>
+      </div>
+
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th><i class="fa fa-user"></i> Name</th>
+            <th><i class="fa fa-envelope"></i> Email</th>
+            <th><i class="fa fa-phone"></i> Phone</th>
+            <th><i class="fa fa-briefcase"></i> Department</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="manager in managers | filter:searchText track by manager.email" ng-click="openEditModal(manager)">
+            <td>{{ manager.name }}</td>
+            <td>{{ manager.email }}</td>
+            <td>{{ manager.phone }}</td>
+            <td><span class="label">{{ manager.department }}</span></td>
+          </tr>          
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Edit/Add Modal -->
+  <div id="managerModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form ng-submit="saveManager()">
+          <div class="modal-header">
+            <h4 class="modal-title">{{ isEditMode ? 'Edit Manager' : 'Add New Manager' }}</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label>Name:</label>
+              <input type="text" class="form-control" ng-model="selectedManager.name" required>
+            </div>
+            <div class="form-group">
+              <label>Email:</label>
+              <input type="email" class="form-control" ng-model="selectedManager.email" required>
+            </div>
+            <div class="form-group">
+              <label>Phone:</label>
+              <input type="text" class="form-control" ng-model="selectedManager.phone" required>
+            </div>
+            <div class="form-group">
+              <label>Department:</label>
+              <select class="form-control" ng-model="selectedManager.department" required>
+                <option>Sales</option>
+                <option>Marketing</option>
+                <option>Finance</option>
+                <option>HR</option>
+                <option>Product</option>
+                <option>Operations</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" type="submit">{{ isEditMode ? 'Update' : 'Add' }}</button>
+            <button class="btn btn-default" type="button" data-dismiss="modal">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="js/managers.js">
+    
+  </script>
+</body>
+</html>

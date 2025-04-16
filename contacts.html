@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html ng-app="crmApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Contacts</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/contacts.css">
+  <style>
+    
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="dashboard.html"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="login.html"><i class="fa fa-sign-out-alt"></i> Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h4>Honey Bee</h4>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="leadinfo.html">Leads</a></li>
+      <li><a href="deals.html">Deals</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="tasks.html">Tasks</a></li>
+      <li><a href="notes.html">Notes</a></li>
+      <li><a href="customer.html">Customers</a></li>
+      <li class="active"><a href="contacts.html">Contacts</a></li>
+      <li><a href="call-logs.html">Call Logs</a></li>
+      <li><a href="organisation.html">Organisation</a></li>
+      <li><a href="employees.html">Employee</a></li>
+      <li><a href="managers.html">Managers</a></li>
+      <li><a href="teams.html">Teams</a></li>
+      <li><a href="supportmgt.html">Support</a></li>
+      <li><a href="analytics.html">Reports</a></li>
+      <li><a href="settings.html">Settings</a></li>
+    </ul>
+  </div>
+  <div id="unauthorized-message" style="display:none; text-align:center; margin-top:50px;">
+    <h2 style="color: red;">You're not authorized to view this page.</h2>
+    <a href="login.html" class="btn btn-primary">Go to Login</a>
+  </div>
+  <div class="main" ng-controller="ContactController">
+    <div ng-show="!selectedContact">
+      <div class="topbar">
+        <h2>Contacts</h2>
+        <button ng-click="addNewContact()">+ Add Contact</button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Company</th>
+            <th>City</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="contact in contacts" ng-click="viewContact(contact)">
+            <td>{{ contact.name }}</td>
+            <td>{{ contact.email }}</td>
+            <td>{{ contact.phone }}</td>
+            <td>{{ contact.company }}</td>
+            <td>{{ contact.city }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div ng-show="selectedContact" class="contact-detail">
+      <button ng-click="backToList()">← Back to Contacts</button>
+      <h2>{{ selectedContact.name || 'New Contact' }}</h2>
+
+      <label>Name: <input ng-model="selectedContact.name" /></label>
+      <label>Email: <input ng-model="selectedContact.email" /></label>
+      <label>Phone: <input ng-model="selectedContact.phone" /></label>
+      <label>Company: <input ng-model="selectedContact.company" /></label>
+      <label>City: <input ng-model="selectedContact.city" /></label>
+
+      <button ng-click="saveContact()">Save</button>
+    </div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="js/contacts.js">
+    
+  </script>
+</body>
+</html>
+

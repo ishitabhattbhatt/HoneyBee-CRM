@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html ng-app="crmApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Lead List</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+  </style>
+  <link rel="stylesheet" href="css/leads.css">
+  
+  
+</head>
+<body>
+
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="dashboard.html"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="login.html"><i class="fa fa-sign-out-alt"></i> Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h4>Honey Bee</h4>
+    <ul class="nav nav-pills nav-stacked">
+      <li class="active"><a href="leadinfo.html">Leads</a></li>
+      <li><a href="deals.html">Deals</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="tasks.html">Tasks</a></li>
+      <li><a href="notes.html">Notes</a></li>
+      <li><a href="customer.html">Customers</a></li>
+      <li><a href="contacts.html">Contacts</a></li>
+      <li><a href="call-logs.html">Call Logs</a></li>
+      <li><a href="organisation.html">Organisation</a></li>
+      <li><a href="employees.html">Employee</a></li>
+      <li><a href="managers.html">Managers</a></li>
+      <li><a href="teams.html">Teams</a></li>
+      <li><a href="supportmgt.html">Support</a></li>
+      <li><a href="analytics.html">Reports</a></li>
+      <li><a href="settings.html">Settings</a></li>
+    </ul>
+  </div>
+
+  <div id="unauthorized-message" style="display:none; text-align:center; margin-top:50px;">
+    <h2 style="color: red;">You're not authorized to view this page.</h2>
+    <a href="login.html" class="btn btn-primary">Go to Login</a>
+  </div>
+  
+  <div id="unauthorized-message" style="display:none; text-align:center; margin-top:50px;">
+    <h2 style="color: red;">You're not authorized to view this page.</h2>
+    <a href="login.html" class="btn btn-primary">Go to Login</a>
+  </div>
+  <div class="main" ng-controller="LeadListController">
+
+    <!-- Lead List -->
+    <div ng-show="!selectedLead">
+        <div class="topbar" style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>Leads</h2>
+            <div class="topbar" style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <button class="btn btn-default" ng-click="setStatusFilter('')">All</button>
+                <button class="btn btn-warning" ng-click="setStatusFilter('New')">New</button>
+                <button class="btn btn-primary" ng-click="setStatusFilter('Contacted')">Contacted</button>
+                <button class="btn btn-success" ng-click="setStatusFilter('Qualified')">Qualified</button>
+              </div>
+              
+              <div>
+                <input type="text" ng-model="searchQuery" placeholder="Search leads..." class="form-control" style="display:inline-block; width: 200px; margin-right: 10px;">
+                <button ng-click="addNewLead()" class="btn btn-success">+ Add New</button>
+              </div>
+            </div>
+          </div>
+      <table class="lead-table">
+        <thead>
+          <tr>
+            <th>Name</th><th>Company</th><th>Email</th><th>Phone</th><th>Status</th><th>Owner:</th><th>Created</th>       </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="lead in leads | filter:filterByStatusAndSearch track by lead.email" ng-click="viewLead(lead)" style="cursor:pointer;">
+            <td>{{ lead.name }}</td>
+            <td>{{ lead.company }}</td>
+            <td>{{ lead.email }}</td>
+            <td>{{ lead.phone }}</td>
+            <td><span class="status-tag {{lead.status}}">{{lead.status}}</span></td>
+            <td>{{ lead.assignedTo }}</td>
+    <td>{{ lead.created | date:'MMM d, y h:mm a' }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Lead Details with Tabs -->
+    <div ng-show="selectedLead" class="lead-detail">
+      <button ng-click="backToList()">← Back to List</button>
+      <h2>{{ selectedLead.name }}</h2>
+
+      <div class="lead-actions" style="margin: 10px 0;">
+        <button class="btn btn-danger btn-sm" ng-click="deleteLead(originalLead)">Delete Lead</button>
+        <button class="btn btn-success btn-sm" ng-click="convertToDeal(originalLead)">Convert to Deal</button>
+        
+      </div>
+      
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button ng-click="activeTab = 'details'" ng-class="{active: activeTab==='details'}">Details</button>
+        <button ng-click="activeTab = 'notes'" ng-class="{active: activeTab==='notes'}">Notes</button>
+        <button ng-click="activeTab = 'tasks'" ng-class="{active: activeTab==='tasks'}">Tasks</button>
+        <button ng-click="activeTab = 'emails'" ng-class="{active: activeTab==='emails'}">Emails</button>
+      </div>
+
+      <!-- Tab Contents -->
+      <div ng-show="activeTab === 'details'" class="tab-content">
+        <label>Name: <input ng-model="selectedLead.name" /></label><br>
+        <label>Company: <input ng-model="selectedLead.company" /></label><br>
+        <label>Email: <input ng-model="selectedLead.email" /></label><br>
+        <label>Phone: <input ng-model="selectedLead.phone" /></label><br>
+        <label>Status: 
+          <select ng-model="selectedLead.status">
+            <option>New</option>
+            <option>Contacted</option>
+            <option>Qualified</option>
+          </select>
+        </label><br>
+        <label>Assigned To:</label>
+        <select ng-model="selectedLead.assignedTo">
+          <option ng-repeat="user in getUniqueAssignees()" value="{{user.name}}">{{user.name}}</option>
+        </select>
+        
+
+        <button ng-click="saveLead()">Save</button>
+      </div>
+
+      <div ng-show="activeTab === 'notes'" class="tab-content">
+        <div ng-if="!selectedLead.notes || selectedLead.notes.length === 0">
+          <p>No notes yet.</p>
+        </div>
+        <ul>
+          <li ng-repeat="(index, note) in selectedLead.notes track by $index" style="margin-bottom: 10px;">
+            <div ng-if="editingNoteIndex !== index" ng-click="enableNoteEdit(index)" style="cursor: pointer;">
+              {{ note }}
+            </div>
+            <div ng-if="editingNoteIndex === index">
+              <textarea ng-model="selectedLead.notes[index]" class="form-control"
+                        ng-blur="disableNoteEdit(index)"
+                        ng-keydown="handleNoteKeyDown($event, index)"
+                        autofocus></textarea>
+            </div>
+          </li>
+        </ul>
+      
+        <textarea ng-model="newNote" class="form-control" placeholder="Add a note..."></textarea>
+        <button class="btn btn-success" style="margin-top: 5px;" ng-click="addNote()">Add Note</button>
+      </div>
+      
+
+      <div ng-show="activeTab === 'tasks'" class="tab-content">
+        <p>(Task management coming soon!)</p>
+      </div>
+
+      <div ng-show="activeTab === 'emails'" class="tab-content">
+        <div ng-if="!selectedLead.emails || selectedLead.emails.length === 0">
+          <p>No email history yet.</p>
+        </div>
+        <ul>
+          <li ng-repeat="(index, email) in selectedLead.emails track by $index" style="margin-bottom: 10px;">
+            <div ng-if="editingEmailIndex !== index" ng-click="enableEmailEdit(index)" style="cursor: pointer;">
+              <strong>{{ email.timestamp }}</strong> 
+              <span ng-if="email.type === 'sent'" class="label label-success">Sent</span>
+              <span ng-if="email.type === 'received'" class="label label-info">Received</span>
+              : {{ email.content }}
+            </div>
+            <div ng-if="editingEmailIndex === index">
+              <textarea ng-model="selectedLead.emails[index].content" class="form-control"
+                        ng-blur="disableEmailEdit(index)"
+                        ng-keydown="handleEmailKeyDown($event, index)"
+                        autofocus></textarea>
+              <small>{{ email.timestamp }}</small>
+            </div>
+          </li>
+        </ul>
+      
+        <!-- Email Interaction Section -->
+        <textarea ng-model="newEmail" class="form-control" placeholder="Type an email..."></textarea>
+      
+        <!-- Buttons to simulate sending and receiving emails -->
+        <div style="margin-top: 10px;">
+          <button class="btn btn-success" ng-click="sendEmail()">Send Email</button>
+          <button class="btn btn-info" ng-click="receiveEmail()">Receive Email</button>
+        </div>
+      </div>
+      
+      
+      
+      
+    </div>
+  </div>
+
+  <!-- AngularJS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="js/lead.js">
+    
+  </script>
+</body>
+</html>

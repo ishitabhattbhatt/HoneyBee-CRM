@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="teamsApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Teams</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/teams.css">
+</head>
+<body ng-controller="TeamsController">
+
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="dashboard.html"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="login.html"><i class="fa fa-sign-out-alt"></i> Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h4>Honey Bee</h4>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="leadinfo.html">Leads</a></li>
+      <li><a href="deals.html">Deals</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="tasks.html">Tasks</a></li>
+      <li><a href="notes.html">Notes</a></li>
+      <li><a href="customer.html">Customers</a></li>
+      <li><a href="contacts.html">Contacts</a></li>
+      <li><a href="call-logs.html">Call Logs</a></li>
+      <li><a href="organisation.html">Organisation</a></li>
+      <li><a href="employees.html">Employee</a></li>
+      <li><a href="managers.html">Managers</a></li>
+      <li class="active"><a href="teams.html">Teams</a></li>
+      <li><a href="supportmgt.html">Support</a></li>
+      <li><a href="analytics.html">Reports</a></li>
+      <li><a href="settings.html">Settings</a></li>
+    </ul>
+  </div>
+  <div id="unauthorized-message" style="display:none; text-align:center; margin-top:50px;">
+    <h2 style="color: red;">You're not authorized to view this page.</h2>
+    <a href="login.html" class="btn btn-primary">Go to Login</a>
+  </div>
+  <div class="main-content">
+    <h2><i class="glyphicon glyphicon-th-large"></i> Teams</h2>
+    <button class="btn btn-pastel" ng-click="openAddTeamModal()">
+        <i class="glyphicon glyphicon-plus"></i> Add New Team
+      </button>
+      <br><br>
+      
+      
+    <div class="panel panel-default" ng-repeat="manager in managers track by manager.email">
+      <div class="panel-heading" data-toggle="collapse" data-target="#team{{$index}}">
+        <i class="glyphicon glyphicon-user"></i> {{ manager.name }}
+        <span class="label pull-right">{{ manager.department }}</span>
+      </div>
+      <div id="team{{$index}}" class="panel-collapse collapse">
+        <div class="panel-body">
+          <button class="btn btn-sm btn-pastel" ng-click="openAssignModal(manager)">Assign New Member</button>
+          <hr>
+          <div ng-if="manager.team.length === 0">No team members assigned.</div>
+          <div class="team-member" ng-repeat="member in manager.team">
+            <strong>{{ member.name }}</strong>
+            <div class="member-info">
+              <small><i class="glyphicon glyphicon-envelope"></i> {{ member.email }}</small><br>
+              <small><i class="glyphicon glyphicon-phone"></i> {{ member.phone }}</small>
+            </div>
+            <div class="action-btns pull-right" ng-if="isManagerOrAdmin">
+              <i class="glyphicon glyphicon-pencil" ng-click="openEditModal(manager, member)"></i>
+              <i class="glyphicon glyphicon-trash" ng-click="removeMember(manager, member)"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Assign/Edit Modal -->
+  <div id="memberModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">{{modalMode}} Team Member</h4>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label>Name</label>
+              <select class="form-control" ng-model="selectedMember"
+                ng-options="emp as emp.name for emp in getUnassignedEmployees() track by emp.id"
+                ng-change="populateSelectedMemberDetails()" ng-disabled="modalMode==='Edit'">
+                <option value="">-- Choose --</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" ng-model="selectedMember.email" class="form-control" ng-readonly="modalMode==='Add'" required>
+            </div>
+            
+            <div class="form-group">
+              <label>Phone</label>
+              <input type="text" ng-model="selectedMember.phone" class="form-control" ng-readonly="modalMode==='Add'">
+            </div>
+            
+            
+            
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button class="btn btn-pastel" ng-click="saveMember()">{{modalMode}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- Add Team Modal -->
+<div id="teamModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Add New Team</h4>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label>Select Manager</label>
+              <select ng-model="selectedTeamManager"
+                      ng-options="emp as emp.name for emp in getUnassignedManagers()"
+                      class="form-control">
+                <option value="">-- Choose a Manager --</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button class="btn btn-pastel" ng-click="confirmAddTeam()" ng-disabled="!selectedTeamManager">Add Team</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="js/teams.js">
+    
+  </script>
+</body>
+</html>
+
+

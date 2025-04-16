@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="projectApp">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Settings</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/settings.css">
+ <style>
+
+  </style>
+  
+</head>
+
+<body ng-controller="SettingsController">
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="dashboard.html"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="login.html"><i class="fa fa-sign-out-alt"></i> Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="sidebar">
+    <h4>Honey Bee</h4>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="leadinfo.html">Leads</a></li>
+      <li><a href="deals.html">Deals</a></li>
+      <li class><a href="projects.html">Projects</a></li>
+      <li><a href="tasks.html">Tasks</a></li>
+      <li><a href="notes.html">Notes</a></li>
+      <li><a href="customer.html">Customers</a></li>
+      <li><a href="contacts.html">Contacts</a></li>
+      <li><a href="call-logs.html">Call Logs</a></li>
+      <li><a href="organisation.html">Organisation</a></li>
+      <li><a href="employees.html">Employee</a></li>
+      <li><a href="managers.html">Managers</a></li>
+      <li><a href="teams.html">Teams</a></li>
+      <li><a href="supportmgt.html">Support</a></li>
+      <li><a href="analytics.html">Reports</a></li>
+      <li class="active"><a href="settings.html">Settings</a></li>
+    </ul>
+  </div>
+
+  <div class="main">
+    <h2>Settings</h2>
+
+    <!-- ADMIN SECTION -->
+    <div class="form-section" ng-if="isAdmin">
+      <h4>Manage Users</h4>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="user in users track by $index">
+            <td><input type="text" ng-model="user.username" class="form-control" /></td>
+            <td><input type="text" ng-model="user.role" class="form-control" /></td>
+            <td><input type="text" ng-model="user.email" class="form-control" /></td>
+            <td><input type="text" ng-model="user.password" class="form-control" /></td>
+            <td>
+              <button class="btn btn-sm btn-primary" ng-click="saveUsers()">Save</button>
+              <button class="btn btn-sm btn-danger" ng-click="deleteUser(user)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    
+      <button class="btn btn-success" ng-click="addUser()">Add New User</button>
+    </div>
+    
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="js/settings.js">
+
+  </script>
+  
+</body>
+
+</html>

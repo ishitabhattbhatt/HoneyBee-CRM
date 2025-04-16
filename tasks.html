@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html ng-app="crmApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Tasks Board</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="css/tasks.css">
+</head>
+<body ng-controller="tasksController">
+
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="dashboard.html">Home</a></li>
+        <li><a href="login.html">Logout</a></li>
+        <li><a href="settings.html">Settings</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="sidebar">
+    <h4>Honey Bee</h4>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="leadinfo.html">Leads</a></li>
+      <li><a href="deals.html">Deals</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li class="active"><a href="tasks.html">Tasks</a></li>
+      <li><a href="notes.html">Notes</a></li>
+      <li><a href="customer.html">Customers</a></li>
+      <li><a href="contacts.html">Contacts</a></li>
+      <li><a href="call-logs.html">Call Logs</a></li>
+      <li><a href="organisation.html">Organisation</a></li>
+      <li><a href="employees.html">Employee</a></li>
+      <li><a href="managers.html">Managers</a></li>
+      <li><a href="teams.html">Teams</a></li>
+      <li><a href="supportmgt.html">Support</a></li>
+      <li><a href="analytics.html">Reports</a></li>
+    </ul>
+  </div>
+
+  <div class="main">
+    <div class="flex justify-between items-center mb-4">
+      <h1>Tasks</h1>
+      <button ng-click="openModal()">+ Add Task</button>
+    </div>
+
+    <div class="board">
+      <div class="column" id="todo">
+        <h4>To Do</h4>
+        <div ng-repeat="task in getVisibleTasks('todo')" class="task" data-id="{{$index}}">
+          <h4>{{task.title}}</h4>
+          <p>{{task.content}}</p>
+          <div class="meta">{{task.time}}</div>
+          <div class="task-actions">
+            <button ng-click="edittask($index)">Edit</button>
+            <button ng-click="deletetask($index)">Delete</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="column" id="progress">
+        <h4>In Progress</h4>
+        <div ng-repeat="task in getVisibleTasks('progress')" class="task" data-id="{{$index}}">
+          <h4>{{task.title}}</h4>
+          <p>{{task.content}}</p>
+          <div class="meta">{{task.time}}</div>
+          <div class="task-actions">
+            <button ng-click="edittask($index)">Edit</button>
+            <button ng-click="deletetask($index)">Delete</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="column" id="done">
+        <h4>Done</h4>
+        <div ng-repeat="task in getVisibleTasks('done')" class="task" data-id="{{$index}}">
+          <h4>{{task.title}}</h4>
+          <p>{{task.content}}</p>
+          <div class="meta">{{task.time}}</div>
+          <div class="task-actions">
+            <button ng-click="edittask($index)">Edit</button>
+            <button ng-click="deletetask($index)">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" ng-class="{'active': showModal}">
+    <div class="modal-content">
+      <h3>{{editIndex !== null ? 'Edit Task' : 'Add Task'}}</h3>
+      <input type="text" ng-model="newtask.title" placeholder="Title" required>
+      <textarea ng-model="newtask.content" placeholder="Content" required></textarea>
+
+      <label for="assignedTo">Assigned To:</label>
+      <select ng-model="newtask.assignedTo" id="assignedTo">
+        <option ng-repeat="employee in employees" value="{{employee.id}}">{{employee.name}}</option>
+      </select>
+
+      <div class="text-right">
+        <button ng-click="closeModal()">Cancel</button>
+        <button ng-click="savetask()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/tasks.js"></script>
+</body>
+</html>

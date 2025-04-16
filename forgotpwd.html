@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="forgotPasswordApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Forgot Password</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      background-color: #FEF3D2;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .forgot-card {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+
+    .form-group label {
+      color: #34495e;
+    }
+
+    .btn-custom {
+      background-color: #EDCFC0;
+      color: #2c3e50;
+      border: none;
+    }
+
+    .btn-custom:hover {
+      background-color: #e0bfb0;
+    }
+
+    .message {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .message.success {
+      color: green;
+    }
+
+    .message.error {
+      color: red;
+    }
+
+    .back-link {
+      display: block;
+      margin-top: 20px;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .back-link a {
+      color: #34495e;
+      text-decoration: none;
+    }
+
+    .back-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body ng-controller="ForgotPasswordController">
+  <div class="forgot-card">
+    <h2><i class="fa fa-unlock-alt"></i> Forgot Password</h2>
+
+    <form ng-submit="requestReset()">
+      <div class="form-group">
+        <label>Enter your registered email</label>
+        <input type="email" class="form-control" ng-model="email" required>
+      </div>
+
+      <button type="submit" class="btn btn-custom btn-block">Request Reset</button>
+    </form>
+
+    <div class="message" ng-class="{'success': success, 'error': error}" ng-if="message">
+      {{ message }}
+    </div>
+
+    <div class="back-link">
+      <a href="login.html"><i class="fa fa-arrow-left"></i> Back to Login</a>
+    </div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script>
+    angular.module('forgotPasswordApp', [])
+      .controller('ForgotPasswordController', function($scope, $http) {
+        $scope.email = '';
+        $scope.message = '';
+        $scope.success = false;
+        $scope.error = false;
+
+        $scope.requestReset = function() {
+          $http.post('https://your-api.com/request-password-reset', { email: $scope.email })
+            .then(function(response) {
+              $scope.success = true;
+              $scope.error = false;
+              $scope.message = "A password reset link has been sent to your email.";
+            }, function(error) {
+              $scope.success = false;
+              $scope.error = true;
+              $scope.message = "There was an error processing your request. Please try again.";
+            });
+        };
+      });
+  </script>
+</body>
+</html>
